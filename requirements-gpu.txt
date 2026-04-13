@@ -1,0 +1,10 @@
+# === GPU / Colab-only dependencies ===
+# These are ONLY installed on Google Colab (or a machine with CUDA) for the
+# NepBERTa fine-tuning notebook. They are NOT needed for the traditional ML
+# pipeline — keep them out of the base requirements.txt to keep local installs
+# small and fast.
+
+torch>=2.0             # PyTorch — the deep-learning engine NepBERTa runs on
+transformers>=4.30     # HuggingFace — downloads NepBERTa + handles training
+datasets>=2.14         # HuggingFace — wraps our CSV as a tokenizable dataset
+accelerate>=0.21       # Helper that makes `transformers` training faster on GPU

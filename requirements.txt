@@ -1,0 +1,16 @@
+# === Core dependencies (CPU-only, runs on any laptop) ===
+# Every ML project in Python usually needs these four: pandas/numpy for data,
+# scikit-learn for the "traditional" models, and matplotlib/seaborn for plots.
+
+pandas>=2.0            # The "Excel of Python" — holds our CSVs as DataFrames
+numpy>=1.24            # The math engine under pandas/sklearn — fast arrays
+scikit-learn>=1.3      # Our TF-IDF + Logistic Regression + metrics toolkit
+matplotlib>=3.7        # Base plotting library (bars, histograms, heatmaps)
+seaborn>=0.12          # Prettier wrapper around matplotlib (confusion matrices)
+
+# === Notebook + utility ===
+jupyter>=1.0           # Runs the .ipynb notebooks locally
+joblib>=1.3            # Saves/loads sklearn models to disk (*.pkl)
+psutil>=5.9            # Reads memory usage of a running Python process
+tqdm>=4.65             # Progress bars for long loops — lets us watch training
+kaggle>=1.5            # Official Kaggle API — used by data/download_data.py

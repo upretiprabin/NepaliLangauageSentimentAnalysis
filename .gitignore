@@ -1,0 +1,38 @@
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# ===== Jupyter =====
+.ipynb_checkpoints/
+
+# ===== IDE =====
+.idea/
+.vscode/
+*.iml
+
+# ===== OS =====
+.DS_Store
+Thumbs.db
+
+# ===== Project-specific: NEVER commit raw/processed data or trained models =====
+# (These are big, re-downloadable, and sometimes license-restricted.)
+# Using `dir/*` (not `dir/`) so git still descends into the folder and the
+# `!.gitkeep` re-include below actually applies.
+data/raw/*
+data/processed/*
+outputs/models/*
+outputs/results/*.csv
+
+# Keep the folder structure in git with .gitkeep sentinel files
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!outputs/models/.gitkeep
+!outputs/results/.gitkeep
+
+# ===== Kaggle credentials — NEVER commit =====
+kaggle.json
+.kaggle/

@@ -36,3 +36,6 @@ outputs/results/*.csv
 # ===== Kaggle credentials — NEVER commit =====
 kaggle.json
 .kaggle/
+
+# ===== Local-only project notes =====
+CLAUDE.md

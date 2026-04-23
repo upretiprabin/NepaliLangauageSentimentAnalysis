@@ -3,10 +3,10 @@
 # scikit-learn for the "traditional" models, and matplotlib/seaborn for plots.
 
 pandas>=2.0            # The "Excel of Python" — holds our CSVs as DataFrames
-numpy>=1.24            # The math engine under pandas/sklearn — fast arrays
+numpy>=1.24,<2.0       # Pin <2.0: NumPy 2.x broke C-ABI for older compiled pkgs
 scikit-learn>=1.3      # Our TF-IDF + Logistic Regression + metrics toolkit
-matplotlib>=3.7        # Base plotting library (bars, histograms, heatmaps)
-seaborn>=0.12          # Prettier wrapper around matplotlib (confusion matrices)
+matplotlib>=3.9        # 3.9+ is the first release built against NumPy 2.x API
+seaborn>=0.13          # 0.13+ works cleanly with the matplotlib 3.9 line
 
 # === Notebook + utility ===
 jupyter>=1.0           # Runs the .ipynb notebooks locally

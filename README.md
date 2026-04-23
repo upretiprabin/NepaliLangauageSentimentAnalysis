@@ -39,12 +39,11 @@ jupyter notebook notebooks/01_data_exploration.ipynb
 
 See `CLAUDE.md` for the full directory tree + rationale behind every folder.
 
-## Datasets
+## Dataset
 
-| Name            | Kaggle slug                        | Rows (raw) | Labels        |
-| --------------- | ---------------------------------- | ---------- | ------------- |
-| aayamoza        | `aayamoza/nepali-sentiment-analysis` | ~35,789  | -1 / 0 / 1    |
-| NepCOV19Tweets  | `mathew11111/nepcov19tweets`         | ~33,474  | -1 / 0 / 1    |
+| Name     | Kaggle slug                          | Rows (raw) | Labels     |
+| -------- | ------------------------------------ | ---------- | ---------- |
+| aayamoza | `aayamoza/nepali-sentiment-analysis` | ~35,789    | -1 / 0 / 1 |
 
-> The NepCOV19Tweets CSV has some malformed rows (quoted newlines bleed into
-> the label column). Preprocessing will filter these out.
+> Scope note: this project deliberately works on a single dataset. Cross-dataset
+> generalisation is future work.

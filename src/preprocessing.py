@@ -382,7 +382,7 @@ def build_train_test_split(
     DONKEY (random_state=42): fixes the "random" shuffle so every run
     produces the exact same split. Essential for comparing two models
     fairly (both must train and test on identical rows) and for
-    reproducibility in the viva.
+    reproducibility.
 
     Args:
         df: Full DataFrame with 'text' and 'label' columns.

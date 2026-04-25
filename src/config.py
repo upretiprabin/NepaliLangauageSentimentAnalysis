@@ -73,7 +73,7 @@ NUM_CLASSES = len(LABEL_NAMES)
 # ──────────────────────────────────────────────────────────────────────────
 # Any function that involves randomness (shuffling, train/test split, model
 # init) should receive this seed. Same seed → same result on every run,
-# which is essential for a fair comparison and for the viva defense.
+# which is essential for a fair comparison.
 RANDOM_STATE = 42
 
 # Fraction of rows held out for the test set. 0.2 = 80/20 split.
@@ -137,6 +137,6 @@ NEPBERTA_WEIGHT_DECAY = 0.01
 # ──────────────────────────────────────────────────────────────────────────
 # FIGURES
 # ──────────────────────────────────────────────────────────────────────────
-# 300 DPI = print-quality plots suitable for a research paper.
+# 300 DPI = print-quality plots.
 FIGURE_DPI = 300
 FIGURE_FORMAT = "png"

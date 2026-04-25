@@ -39,3 +39,6 @@ kaggle.json
 
 # ===== Local-only project notes =====
 CLAUDE.md
+
+# ===== Claude Code agent state (per-machine, not for the repo) =====
+.claude/

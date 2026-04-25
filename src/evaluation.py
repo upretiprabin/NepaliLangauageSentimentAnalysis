@@ -27,7 +27,7 @@ We compute TWO families of metrics:
 Reporting BOTH sets matters: NepBERTa will very likely win on accuracy but
 lose on efficiency. For deployment in Nepal's resource-constrained
 environments (cheap servers, limited GPUs) the trade-off matters — that's
-our paper's core argument.
+the central comparison this project makes.
 
 Public API:
   - Profiler                        (context manager: time + peak memory)
@@ -179,7 +179,7 @@ def compute_performance_metrics(
 
     DONKEY: this is the one-shot "quiz score report card" for a model.
     Given the correct answers (y_true) and the model's guesses (y_pred),
-    it returns a dict with every number we'd put in the paper.
+    it returns a dict with every metric we report.
 
     We ALWAYS compute macro-averaged metrics too (not just micro / overall)
     because the dataset is imbalanced. A model that ignores the minority
@@ -247,13 +247,13 @@ def compute_performance_metrics(
     cm = confusion_matrix(y_true, y_pred, labels=label_ids)
 
     # Pre-formatted text report. Great for paste-into-notebook prints and
-    # into the paper's appendix.
+    # for inclusion in any results write-up.
     report_str = classification_report(
         y_true, y_pred,
         labels=label_ids,
         target_names=config.LABEL_NAMES,
         zero_division=0,
-        digits=4,  # 4 decimal places — enough for the paper
+        digits=4,  # 4 decimal places — sufficient resolution
     )
 
     # Return everything in ONE flat dict. Callers pick what they need.
@@ -345,7 +345,7 @@ def model_size_mb(path: str) -> float:
 
     DONKEY: Logistic-regression pickles are ~1 MB. NepBERTa checkpoints
     are ~450 MB. That contrast goes directly into the efficiency-comparison
-    figure — one of our key paper points.
+    figure — one of our key efficiency findings.
 
     Handles both cases:
       - single file (e.g., logistic_regression.pkl)

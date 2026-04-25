@@ -1,10 +1,22 @@
 # === GPU / Colab-only dependencies ===
-# These are ONLY installed on Google Colab (or a machine with CUDA) for the
-# NepBERTa fine-tuning notebook. They are NOT needed for the traditional ML
+# These are ONLY installed on Google Colab (or a machine with CUDA / MPS) for
+# the NepBERTa fine-tuning notebook. They are NOT needed for the traditional ML
 # pipeline — keep them out of the base requirements.txt to keep local installs
 # small and fast.
 
-torch>=2.0             # PyTorch — the deep-learning engine NepBERTa runs on
-transformers>=4.30     # HuggingFace — downloads NepBERTa + handles training
-datasets>=2.14         # HuggingFace — wraps our CSV as a tokenizable dataset
-accelerate>=0.21       # Helper that makes `transformers` training faster on GPU
+torch>=2.0                  # PyTorch — the deep-learning engine NepBERTa runs on
+transformers==4.45.2        # HuggingFace — pinned: later 4.5x versions have a
+                            # bug on the TF → PyTorch conversion path that
+                            # leaves model weights as "meta tensors" (empty
+                            # placeholders). 4.45.2 still handles `from_tf=True`
+                            # correctly. Revisit when HF fixes the upstream bug.
+datasets>=2.14              # HuggingFace — wraps our CSV as a tokenizable dataset
+accelerate>=0.21            # Helper that makes `transformers` training faster on GPU
+
+# === Needed because NepBERTa's HuggingFace repo only ships TensorFlow weights ===
+# transformers loads them via TF then converts to PyTorch on the fly.
+# `tf-keras` is required because TF 2.16+ ships Keras 3 which transformers
+# doesn't yet support — tf-keras re-exposes the Keras 2 API that transformers
+# needs.
+tensorflow>=2.15
+tf-keras>=2.15

@@ -3,7 +3,7 @@ visualizations.py — every plot the project produces, in one place.
 
 DONKEY EXPLANATION:
 -------------------
-A research paper without graphs is hard to read. Rather than scattering
+A report without graphs is hard to read. Rather than scattering
 `plt.plot` calls across notebooks, we put ALL plotting functions here so:
   - every figure has the same style (DPI, fonts, colours)
   - notebooks stay short and readable (no 40-line plotting blocks)
@@ -23,7 +23,7 @@ Figures we produce (in approximate build order):
 
 Style rules (from CLAUDE.md):
   - PNG, 300 DPI, tight_layout
-  - NO titles — captions live in the paper, not in the figures themselves
+  - NO titles — captions are added separately, not in the figures themselves
   - Clean axis labels + value annotations on bars
   - Saved to outputs/figures/ — never hard-code paths; use `config.FIGURES`
 
@@ -250,7 +250,7 @@ def plot_confusion_matrix(
     -------------------------
     Raw counts show absolute mistakes but are biased by class size. Row-
     normalised values show PER-CLASS recall — "of the true Positives,
-    what fraction were predicted as each class?". Paper usually shows both.
+    what fraction were predicted as each class?". We usually show both.
 
     Args:
         cm: 2D numpy array of shape (n_classes, n_classes).
@@ -409,7 +409,7 @@ def plot_efficiency_comparison(
 
     DONKEY: accuracy isn't everything — NepBERTa will be ~100x slower and
     ~500x bigger than LR. This figure makes the trade-off visible and
-    feeds directly into the paper's "for deployment in Nepal..." argument.
+    supports the deployment-cost discussion ("for deployment in Nepal...").
 
     Each subplot uses a LOG y-scale because the gap between LR and
     NepBERTa is typically 2-3 orders of magnitude on these metrics —
@@ -522,8 +522,8 @@ def plot_data_quality(
 ) -> plt.Figure:
     """Two-panel: (A) dup breakdown bar, (B) label-pair conflict heatmap.
 
-    DONKEY: makes the "noisy labels" EDA finding visible in one figure
-    for the paper. Panel A = how many redundant rows are harmless vs
+    DONKEY: makes the "noisy labels" EDA finding visible in one figure.
+    Panel A = how many redundant rows are harmless vs
     problematic. Panel B = among the problematic ones, which label-pair
     disagreements occurred (Positive-vs-Negative = worst; Neutral-vs-X
     = milder).

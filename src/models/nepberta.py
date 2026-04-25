@@ -35,7 +35,7 @@ HF `Trainer` class does all of that, plus:
   - logging + checkpointing + early-stopping callbacks
   - plays nicely with our `evaluation.py` via a `compute_metrics` hook
 We accept the abstraction because the boilerplate it hides isn't what
-the paper is about.
+this project is about.
 
 ⚠️  LOCAL vs COLAB
 This module imports `torch` and `transformers`, neither of which is in
@@ -168,16 +168,47 @@ def build_model(num_labels: int = config.NUM_CLASSES):
     The backbone weights are reused (it already knows Nepali). Only the
     new head starts random — that's what `train_model()` will teach.
 
+    ⚠️ TF-only weights on Hugging Face
+    The `NepBERTa/NepBERTa` repo ships only TensorFlow weights
+    (`tf_model.h5`), not a PyTorch `pytorch_model.bin`. We try PyTorch
+    first (cheap, no TF dep needed if it works) and fall back to
+    `from_tf=True`, which requires `tensorflow` installed so transformers
+    can convert the weights to PyTorch tensors on the fly.
+
     Args:
         num_labels: how many output classes (3 for us).
 
     Returns:
         torch.nn.Module ready for the Trainer.
     """
-    return AutoModelForSequenceClassification.from_pretrained(
-        config.NEPBERTA_MODEL_NAME,
-        num_labels=num_labels,
-    )
+    try:
+        return AutoModelForSequenceClassification.from_pretrained(
+            config.NEPBERTA_MODEL_NAME,
+            num_labels=num_labels,
+        )
+    except OSError as e:
+        # Error message from transformers contains "TensorFlow weights" when
+        # only tf_model.h5 is available on the hub. Fall through to from_tf.
+        if 'TensorFlow' in str(e) or 'tf_model' in str(e):
+            print('[build_model] no PyTorch weights on hub; loading from '
+                  'TensorFlow weights (requires `tensorflow` installed)...')
+            # `low_cpu_mem_usage=False` is CRITICAL here.
+            # In transformers >= 4.50 + torch >= 2.3 the default pre-allocates
+            # the PyTorch model on the "meta" device (no real storage, just
+            # shape metadata) to save RAM during load. That optimisation is
+            # BROKEN on the TF → PyTorch path: the TF weight copies land as
+            # no-ops, leaving every parameter as an empty meta tensor. The
+            # model then fails to move to GPU/MPS with
+            #   "Cannot copy out of meta tensor; no data!"
+            # Disabling the optimisation forces real tensor allocation from
+            # the start, which the TF-to-PT copy then fills correctly.
+            return AutoModelForSequenceClassification.from_pretrained(
+                config.NEPBERTA_MODEL_NAME,
+                num_labels=num_labels,
+                from_tf=True,
+                low_cpu_mem_usage=False,
+            )
+        raise
 
 
 # ──────────────────────────────────────────────────────────────────────────
@@ -327,7 +358,7 @@ def train_model(
         load_best_model_at_end  = True,
         metric_for_best_model   = 'macro_f1',
         greater_is_better       = True,
-        save_total_limit        = 2,   # keep only last 2 checkpoints on disk
+        save_total_limit        = 1,   # keep only last checkpoint on disk
 
         # Logging: every 50 steps is plenty for a 2-3k-step fine-tune.
         logging_steps           = 50,
